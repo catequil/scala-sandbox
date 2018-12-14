@@ -9,4 +9,8 @@ trait MapEntryService extends RyanDB.Connector {
   def selectAll: Future[List[MapEntry]] = {
     RyanDB.mapEntries.select(_.key, _.value).fetch()
   }
+
+  def selectByKey(key: String): Future[List[MapEntry]] = {
+    RyanDB.mapEntries.select.where(_.key eqs key).fetch()
+  }
 }
