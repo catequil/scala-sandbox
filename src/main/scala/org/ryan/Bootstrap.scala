@@ -3,39 +3,57 @@ package org.ryan
 import monix.execution.Scheduler.Implicits.global
 import monix.eval.Task
 import monix.reactive.Observable
-import org.ryan.db.phantom.services.MapEntryService
+import org.ryan.db.Connector
+import org.ryan.db.entity.MapEntry
+import org.ryan.db.quill.services.MapEntryService
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import scala.util.Success
+import scala.util.{Failure, Success}
 
 object Bootstrap {
 
   def main(args: Array[String]): Unit = {
 
-    val mapEntries = MapEntryService.selectAll
-
-    mapEntries.onComplete {
-      case Success(result) => result.foreach{ entry =>
-        println(s"${entry.key} : ${entry.value}")
-      }
-    }
-
-
-//    val task = Task(MapEntryService.selectAll)
+//    //Datastax driver
+//    val session = Connector.session
 //
-//    val future = task.runToFuture
+//    session.prepareAsync("select key, value from mapentry").
+
+//    //Quill
+//    import MapEntryService.ctx._
 //
-//    Await.result(future, 5.seconds)
+//    val mapEntries = run(MapEntryService.selectAll)
 //
-//    val tick = {
-//      Observable.interval(1.second)
-//        .filter(_ % 2 == 0)
-//        .map(_ * 2)
-//        .flatMap(x => Observable.fromIterable(Seq(x,x)))
-//        .take(5)
-//        .dump("Out")
+//    mapEntries.onComplete {
+//      case Success(result) => result.foreach{ entry =>
+//        println(s"${entry.key} : ${entry.value}")
+//      }
 //    }
-//    val cancelable = tick.subscribe()
+//
+//    val mapEntries2 = run(MapEntryService.selectByKey("key3"))
+//
+//    mapEntries2.onComplete{
+//      case Success(result) => println(result.head.value)
+//      case Failure(exception) => println("Unknown value")
+//    }
+
+//    //Phantom
+//    val mapEntries = MapEntryService.selectAll
+//
+//    mapEntries.onComplete {
+//      case Success(result) => result.foreach{ entry =>
+//        println(s"${entry.key} : ${entry.value}")
+//      }
+//    }
+//
+//    val mapEntries2 = MapEntryService.selectByKey("key4")
+//
+//    mapEntries2.onComplete{
+//      case Success(result) => println(result.get.value)
+//      case Failure(exception) => println("Unknown value")
+//    }
+
+    System.exit(0)
   }
 }
