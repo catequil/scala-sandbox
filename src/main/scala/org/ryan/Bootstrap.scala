@@ -3,7 +3,7 @@ package org.ryan
 import monix.execution.Scheduler.Implicits.global
 import monix.eval.Task
 import monix.reactive.Observable
-import org.ryan.db.Connector
+import org.ryan.db.QuillConnector
 import org.ryan.db.entity.MapEntry
 import org.ryan.db.quill.services.MapEntryService
 
